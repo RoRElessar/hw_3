@@ -12,42 +12,37 @@
         0: ' '
     };
 
-    let result = {};
+    let result = [];
     const tbody = document.getElementById('tbody');
     const instructions = keyPressCount('Hello wo');
 
-    for (let value in instructions) {
-        let tableRow = document.createElement('tr');
-        let buttonTableCell = document.createElement('td');
-        let countTableCell = document.createElement('td');
-        let clicksCount = instructions[value];
+    instructions.forEach(function (element) {
+       const tableRow = document.createElement('tr');
+       const rowCell = document.createElement('td');
 
-        buttonTableCell.textContent = value;
-        countTableCell.textContent = clicksCount + (clicksCount > 1 ? ' times' : ' time');
-        tableRow.appendChild(buttonTableCell);
-        tableRow.appendChild(countTableCell);
-        tbody.appendChild(tableRow);
-    }
+       rowCell.textContent = element;
+       tableRow.appendChild(rowCell);
+       tbody.appendChild(tableRow);
+       
+    });
 
     function keyPressCount(message) {
         const splitMessageArray = message.toLowerCase().split('');
 
-        for (let i = 0; i < splitMessageArray.length; i++) {
-            let messageLetter = splitMessageArray[i];
+        splitMessageArray.forEach(function (element, i) {
+            const messageLetter = splitMessageArray[i];
 
-            for (let button in phoneKeyBoard) {
+            for (const button in phoneKeyBoard) {
 
                 if (phoneKeyBoard[button].includes(messageLetter)) {
-                    let letterIndex = phoneKeyBoard[button].indexOf(messageLetter);
+                    const letterIndex = phoneKeyBoard[button].indexOf(messageLetter) + 1;
+                    const times = letterIndex > 1 ? ' times' : ' time';
 
-                    result.hasOwnProperty(button) ?
-                        result[button] += letterIndex + 1 :
-                        result[button] = letterIndex + 1;
+                    result.push('Press ' + button + ' button ' + letterIndex + times);
                 }
 
             }
-
-        }
+        });
 
         return result;
     }
